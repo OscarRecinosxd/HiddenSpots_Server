@@ -48,6 +48,7 @@ exports.signUp = async (req, res) => {
     username: username.toLowerCase(),
     email: email,
     password: hashedPassword,
+    isActive: true,
   })
     .then(() => {
       console.log("Usuario creado");
