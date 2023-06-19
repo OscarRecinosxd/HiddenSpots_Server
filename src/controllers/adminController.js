@@ -8,10 +8,10 @@ exports.getUser = (req, res) => {
   User.findByPk(req.params.id)
     .then((user) => {
       if(user){
-        return res.status(200).res.json(user);
+        return res.status(200).json(user);
       }
       else{
-        return res.json({result : "Theres no username"})
+        return res.status(200).json({result : "Theres no username"})
       }
       
     })
@@ -23,7 +23,7 @@ exports.getUser = (req, res) => {
 exports.getUsers = (req, res) => {
   User.findAll()
     .then((users) => {
-      res.status(200).res.json(users);
+      res.status(200).json(users);
     })
     .catch((err) => {
       res.status(400).json({ result: "Something went wrong" });
