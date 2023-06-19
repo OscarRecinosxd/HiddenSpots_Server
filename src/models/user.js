@@ -2,6 +2,8 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../utils/database");
 const Role = require("./role");
+const Category = require("./category");
+const PhisicalCondition = require("./phisicalCondition");
 
 const User = sequelize.define("user", {
   id: {
@@ -34,13 +36,14 @@ const User = sequelize.define("user", {
   },
 });
 
-Role.hasOne(User, {
+
+Role.hasMany(User,{
   foreignKey: {
-    name: "rol",
     defaultValue: 2,
-    //todo change this to false
     allowNull: true
   },
-});
+})
+
+User.belongsTo(Role)
 
 module.exports = User;

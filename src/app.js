@@ -9,6 +9,7 @@ const authRoutes = require("./routes/authRoute");
 const hiddeSpotsRoutes = require("./routes/hiddenSpotsRoute");
 const cors = require("cors");
 const Role = require("./models/role");
+const insertDummyData = require("./utils/dummyData");
 app.use(cors());
 app.use(Express.json());
 app.use(
@@ -28,27 +29,16 @@ app.get("/", (req, res, next) => {
   res.send({ title: "Hola" });
 });
 
+
 database
-  //.sync({ force: true })
+  .sync({ force: true })
   //.sync({alter : true})
-  .sync()
-  .then((result) => {
-    //Para insertar los roles
-    /*const role1 = new Role({ name: "admin" });
-    const role2 = new Role({ name: "usuario" });
-    role1
-      .save()
-      .then(() => {
-        role2.save();
-      })
-      .then(() => {
-        console.log("GUARDADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-        return;
-      })
-      .catch((err) => {
-        console.log(err);
-      });*/
+  //.sync()
+  .then(async(result) => {
+    await insertDummyData()
     console.log("Se cargo la base de datos");
+    console.log("------------------------------");
   })
   .catch((err) => console.log(err));
+
 app.listen(process.env.PORT);

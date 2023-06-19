@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 
 const sequelize = require("../utils/database");
+const Category = require("./category");
+const PhisicalCondition = require("./phisicalCondition");
 
 const HiddenSpot = sequelize.define("hiddenspot",{
     id: {
@@ -18,10 +20,22 @@ const HiddenSpot = sequelize.define("hiddenspot",{
         type: Sequelize.STRING,
         allowNull: false,
     },
+
     location:{
         type: Sequelize.GEOGRAPHY('POINT'),
         allowNull: false,
     }
 })
+
+
+Category.hasMany(HiddenSpot)
+
+HiddenSpot.belongsTo(Category)
+
+
+PhisicalCondition.hasMany(HiddenSpot)
+
+HiddenSpot.belongsTo(PhisicalCondition)
+
 
 module.exports = HiddenSpot
