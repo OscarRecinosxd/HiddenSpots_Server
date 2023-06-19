@@ -24,6 +24,10 @@ const User = sequelize.define("user", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  isActive: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+  },
   resetToken: {
     type: Sequelize.STRING,
     allowNull: true,

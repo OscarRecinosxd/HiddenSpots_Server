@@ -49,6 +49,7 @@ exports.createUser = async (req, res) => {
     username: username.toLowerCase(),
     email: email,
     password: hashedPassword,
+    isActive: true,
     role: role,
   })
     .then(() => {
