@@ -115,3 +115,14 @@ exports.deleteUser = async (req, res) => {
 
   return res.status(200).json({ result: "User updated successfully" });
 };
+
+//FIND ALL ROLES
+exports.getRoles = (req, res) => {
+  Role.findAll()
+    .then((roles) => {
+      res.status(200).json(roles);
+    })
+    .catch((err) => {
+      res.status(400).json({ result: "Something went wrong" });
+    });
+};
