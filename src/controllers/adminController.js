@@ -98,29 +98,20 @@ exports.updateUser = (req, res) => {
     });
 };
 
-//REMOVE
-exports.deleteUser = (req, res) => {
-  const userId = req.body.id;
+//DEACTIVATE
+exports.deleteUser = async (req, res) => {
+  const userId = req.params.id;
 
-  User.findByPk(userId)
-    .then((userToDelete) => {
-      userToDelete.destroy();
-    })
-    .then(() => {
-      res.status(200).json({ result: "User deleted!" });
-    })
-    .catch((err) => {
-      res.status(400).json({ result: "Something went wrong" });
-    });
-};
+  const userToDeactivate = await User.findByPk(userId);
 
-//FIND ALL ROLES
-exports.getRoles = (req, res) => {
-  Role.findAll()
-    .then((roles) => {
-      res.status(200).json(roles);
-    })
-    .catch((err) => {
-      res.status(400).json({ result: "Something went wrong" });
-    });
+  if (!userToDeactivate) {
+    return res.status(400).json({ result: "Something went wrong" });
+  }
+
+  const actualStatus = userToDeactivate.isActive;
+
+  userToDeactivate.isActive = !actualStatus;
+  await userToDeactivate.save();
+
+  return res.status(200).json({ result: "User updated successfully" });
 };
