@@ -1,5 +1,6 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const Role = require("../models/role");
 
 //CRUD
 
@@ -7,13 +8,11 @@ exports.getUser = (req, res) => {
   console.log(req.params.id);
   User.findByPk(req.params.id)
     .then((user) => {
-      if(user){
+      if (user) {
         return res.status(200).json(user);
+      } else {
+        return res.status(200).json({ result: "Theres no username" });
       }
-      else{
-        return res.status(200).json({result : "Theres no username"})
-      }
-      
     })
     .catch((err) => {
       res.status(400).json({ result: "Something went wrong" });
@@ -39,18 +38,21 @@ exports.createUser = async (req, res) => {
   const confirm_password = req.body.confirm_password;
   const role = req.body.role;
 
-  if(password !== confirm_password){
-    return res.status(400).json({ result: "Passwords don't match"})
+  if (password !== confirm_password) {
+    return res.status(400).json({ result: "Passwords don't match" });
   }
 
-  const hashedPassword = await bcrypt.hash(password, parseInt(process.env.SALT));
+  const hashedPassword = await bcrypt.hash(
+    password,
+    parseInt(process.env.SALT)
+  );
 
   User.create({
     username: username.toLowerCase(),
     email: email,
     password: hashedPassword,
     isActive: true,
-    role: role,
+    roleId: role,
   })
     .then(() => {
       console.log("Usuario creado");
@@ -69,7 +71,7 @@ exports.updateUser = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const rolId = req.body.rol;
-  let savedUser
+  let savedUser;
 
   User.findByPk(userId)
     .then((userToUpdate) => {
@@ -80,9 +82,9 @@ exports.updateUser = (req, res) => {
       //Falta verificar que no de error el save
       if (username && email && password && rolId) {
         userToUpdate.save();
-        savedUser = userToUpdate
+        savedUser = userToUpdate;
       } else {
-        savedUser = null
+        savedUser = null;
       }
     })
     .then(() => {
@@ -106,6 +108,17 @@ exports.deleteUser = (req, res) => {
     })
     .then(() => {
       res.status(200).json({ result: "User deleted!" });
+    })
+    .catch((err) => {
+      res.status(400).json({ result: "Something went wrong" });
+    });
+};
+
+//FIND ALL ROLES
+exports.getRoles = (req, res) => {
+  Role.findAll()
+    .then((roles) => {
+      res.status(200).json(roles);
     })
     .catch((err) => {
       res.status(400).json({ result: "Something went wrong" });
