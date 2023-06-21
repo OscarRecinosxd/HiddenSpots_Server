@@ -51,7 +51,7 @@ exports.createUser = async (req, res) => {
     email: email,
     password: hashedPassword,
     isActive: true,
-    role: role,
+    roleId: role,
   })
     .then(() => {
       console.log("Usuario creado");

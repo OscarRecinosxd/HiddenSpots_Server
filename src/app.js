@@ -31,11 +31,11 @@ app.get("/", (req, res, next) => {
 
 
 database
-  .sync({ force: true })
+  //.sync({ force: true })
   //.sync({alter : true})
-  //.sync()
+  .sync()
   .then(async(result) => {
-    await insertDummyData()
+    //await insertDummyData()
     console.log("Se cargo la base de datos");
     console.log("------------------------------");
   })
