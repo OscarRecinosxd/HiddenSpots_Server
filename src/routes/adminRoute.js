@@ -18,7 +18,7 @@ router.post("/save-user", adminController.createUser)
 router.post("/update-user", adminController.updateUser)
 
 //Elimiar usuario
-router.post("/delete-user",/*validateToken,*/adminController.deleteUser)
+router.patch("/deactivate/:id",/*validateToken,*/adminController.deleteUser)
 
 
 module.exports = router
