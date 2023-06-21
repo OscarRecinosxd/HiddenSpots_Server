@@ -8,6 +8,9 @@ const adminController = require("../controllers/adminController")
 //
 router.get("/users",/*validateToken, */adminController.getUsers)
 
+//Obtener todos los roles
+router.get("/roles",/*validateToken, */adminController.getRoles)
+
 //Obtener solo 1 usuario
 router.get("/:id", adminController.getUser)
 
