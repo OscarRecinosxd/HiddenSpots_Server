@@ -36,8 +36,16 @@ exports.postCreateHiddenSpot = (req, res) => {
   const lat = req.body.lat;
   const lng = req.body.lng;
   const location = { type: "Point", coordinates: [lng, lat] };
+  const tourismcategoryId = req.body.tourismcategoryId;
+  const phisicalconditiontypeId = req.body.phisicalconditiontypeId;
 
-  HiddenSpot.create({ name, description, location })
+  HiddenSpot.create({
+    name,
+    description,
+    location,
+    tourismcategoryId,
+    phisicalconditiontypeId,
+  })
     .then(() => {
       res.status(201).json({ result: "Created!" });
     })
@@ -47,16 +55,15 @@ exports.postCreateHiddenSpot = (req, res) => {
 };
 
 exports.postDeleteHiddenSpot = async (req, res) => {
-    const id = req.body.id
-    await HiddenSpot
-    .findByPk(id)
-    .then(hiddenSpot => {
-        hiddenSpot.destroy()
+  const id = req.body.id;
+  await HiddenSpot.findByPk(id)
+    .then((hiddenSpot) => {
+      hiddenSpot.destroy();
     })
     .then((result) => {
-        return res.status(200).json({result : "Deleted"})
+      return res.status(200).json({ result: "Deleted" });
     })
     .catch(() => {
-        return res.status(400).json({result : "Something went wrong!! "})
-    })
+      return res.status(400).json({ result: "Something went wrong!! " });
+    });
 };
