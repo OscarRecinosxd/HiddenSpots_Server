@@ -35,7 +35,7 @@ database
   //.sync({alter : true})
   .sync()
   .then(async(result) => {
-    //await insertDummyData()
+   // await insertDummyData()
     console.log("Se cargo la base de datos");
     console.log("------------------------------");
   })
