@@ -1,3 +1,4 @@
+const cloudinary = require("cloudinary");
 const HiddenSpot = require("../models/hiddenSpot");
 
 exports.getHiddenSpot = (req, res) => {
@@ -38,20 +39,51 @@ exports.postCreateHiddenSpot = (req, res) => {
   const location = { type: "Point", coordinates: [lng, lat] };
   const tourismcategoryId = req.body.tourismcategoryId;
   const phisicalconditiontypeId = req.body.phisicalconditiontypeId;
+  const imageUrl = req.body.imageUrl || null;
 
-  HiddenSpot.create({
-    name,
-    description,
-    location,
-    tourismcategoryId,
-    phisicalconditiontypeId,
-  })
-    .then(() => {
-      res.status(201).json({ result: "Created!" });
+  if (imageUrl === null) {
+    HiddenSpot.create({
+      name,
+      description,
+      location,
+      imageUrl,
+      tourismcategoryId,
+      phisicalconditiontypeId,
     })
-    .catch((err) => {
-      res.status(400).json({ result: "Something went wrong!" });
-    });
+      .then(() => {
+        return res.status(201).json({ result: "Created!" });
+      })
+      .catch((err) => {
+        console.log("CATCH ", err);
+        return res.status(400).json({ result: "Something went wrong!" });
+      });
+  }
+
+  imageUrl && cloudinary.v2.uploader.upload(
+    imageUrl,
+    { public_id: name },
+    function (error, result) {
+      if (error) {
+        console.log("ERROR ", error);
+        return res.status(400).json({ result: "Something went wrong!" });
+      }
+      HiddenSpot.create({
+        name,
+        description,
+        location,
+        imageUrl: result.url,
+        tourismcategoryId,
+        phisicalconditiontypeId,
+      })
+        .then(() => {
+          return res.status(201).json({ result: "Created!" });
+        })
+        .catch((err) => {
+          console.log("CATCH ", err);
+          return res.status(400).json({ result: "Something went wrong!" });
+        });
+    }
+  );
 };
 
 exports.postDeleteHiddenSpot = async (req, res) => {
