@@ -1,5 +1,6 @@
 require("dotenv").config();
 const Express = require("express");
+const cloudinary = require("cloudinary");
 const database = require("./utils/database");
 const User = require("./models/user");
 const { expressjwt } = require("express-jwt");
@@ -11,7 +12,15 @@ const cors = require("cors");
 const Role = require("./models/role");
 const insertDummyData = require("./utils/dummyData");
 app.use(cors());
+
 app.use(Express.json());
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 app.use(
   expressjwt({
     algorithms: ["HS256"],
@@ -29,13 +38,12 @@ app.get("/", (req, res, next) => {
   res.send({ title: "Hola" });
 });
 
-
 database
-  //.sync({ force: true })
-  //.sync({alter : true})
+  // .sync({ force: true })
+  // .sync({alter : true})
   .sync()
-  .then(async(result) => {
-   // await insertDummyData()
+  .then(async (result) => {
+    // await insertDummyData()
     console.log("Se cargo la base de datos");
     console.log("------------------------------");
   })
