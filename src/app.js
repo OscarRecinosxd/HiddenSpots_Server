@@ -8,9 +8,11 @@ const app = Express();
 const adminRoutes = require("./routes/adminRoute");
 const authRoutes = require("./routes/authRoute");
 const hiddeSpotsRoutes = require("./routes/hiddenSpotsRoute");
+const auxRoutes = require("./routes/auxRoutes")
 const cors = require("cors");
 const Role = require("./models/role");
 const insertDummyData = require("./utils/dummyData");
+
 app.use(cors());
 
 app.use(Express.json());
@@ -30,8 +32,8 @@ app.use(
 );
 
 app.use("/admin", adminRoutes);
-
 app.use(authRoutes);
+app.use(auxRoutes)
 app.use("/spots", hiddeSpotsRoutes);
 
 app.get("/", (req, res, next) => {
