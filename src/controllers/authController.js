@@ -15,6 +15,10 @@ exports.sendLogin = async (req, res) => {
     return res.sendStatus(401);
   }
 
+  if(user.isActive === false){
+    return res.status(400).json({  result: "It seems like this account is disabled. Contact an administrator for help." })
+  }
+
   bcrypt.compare(password, user.password, (err, data) => {
     if (err) {
       throw err;
