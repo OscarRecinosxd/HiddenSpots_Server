@@ -65,37 +65,23 @@ exports.createUser = async (req, res) => {
 };
 
 //UPDATE
-exports.updateUser = (req, res) => {
-  const userId = req.body.id;
-  const username = req.body.username;
-  const email = req.body.email;
-  const password = req.body.password;
-  const rolId = req.body.rol;
-  let savedUser;
+exports.updateUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const newInfo = req.body;
+    let userToUpdate = await User.findByPk(userId);
 
-  User.findByPk(userId)
-    .then((userToUpdate) => {
-      userToUpdate.username = username;
-      userToUpdate.email = email;
-      userToUpdate.password = password;
-      userToUpdate.rol = rolId;
-      //Falta verificar que no de error el save
-      if (username && email && password && rolId) {
-        userToUpdate.save();
-        savedUser = userToUpdate;
-      } else {
-        savedUser = null;
-      }
-    })
-    .then(() => {
-      if (savedUser) {
-        return res.status(200).json(savedUser);
-      }
-      return res.status(400).json({ err: "Something went wrong" });
-    })
-    .catch(() => {
-      res.status(400).json({ err: "Something went wrong" });
-    });
+    if (!userToUpdate) {
+      return res.status(404).json({ result: "Something went wrong" });
+    }
+
+    await userToUpdate.update(newInfo);
+    await userToUpdate.save();
+    return res.status(200).json({ result: "User updated successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ result: "Something went wrong" });
+  }
 };
 
 //DEACTIVATE
