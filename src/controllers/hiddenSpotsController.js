@@ -40,6 +40,7 @@ exports.postCreateHiddenSpot = (req, res) => {
   const tourismcategoryId = req.body.tourismcategoryId;
   const phisicalconditiontypeId = req.body.phisicalconditiontypeId;
   const imageUrl = req.body.imageUrl || null;
+  const userId = req.body.userId;
 
   if (imageUrl === null) {
     HiddenSpot.create({
@@ -49,6 +50,7 @@ exports.postCreateHiddenSpot = (req, res) => {
       imageUrl,
       tourismcategoryId,
       phisicalconditiontypeId,
+      userId,
     })
       .then(() => {
         return res.status(201).json({ result: "Created!" });
@@ -74,6 +76,7 @@ exports.postCreateHiddenSpot = (req, res) => {
         imageUrl: result.url,
         tourismcategoryId,
         phisicalconditiontypeId,
+        userId,
       })
         .then(() => {
           return res.status(201).json({ result: "Created!" });
@@ -87,7 +90,7 @@ exports.postCreateHiddenSpot = (req, res) => {
 };
 
 exports.postDeleteHiddenSpot = async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
   await HiddenSpot.findByPk(id)
     .then((hiddenSpot) => {
       hiddenSpot.destroy();
