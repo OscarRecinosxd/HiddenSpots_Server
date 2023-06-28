@@ -11,6 +11,6 @@ router.get("/:id",hiddenSpotsController.getHiddenSpot)
 
 router.post("/create-hidden-spot",hiddenSpotsController.postCreateHiddenSpot)
 
-router.post("/delete-hidden-spot",hiddenSpotsController.postDeleteHiddenSpot)
+router.delete("/delete-hidden-spot/:id",hiddenSpotsController.postDeleteHiddenSpot)
 
 module.exports = router
