@@ -61,32 +61,71 @@ exports.postCreateHiddenSpot = (req, res) => {
       });
   }
 
-  imageUrl && cloudinary.v2.uploader.upload(
-    imageUrl,
-    { public_id: name },
-    function (error, result) {
-      if (error) {
-        console.log("ERROR ", error);
-        return res.status(400).json({ result: "Something went wrong!" });
-      }
-      HiddenSpot.create({
-        name,
-        description,
-        location,
-        imageUrl: result.url,
-        tourismcategoryId,
-        phisicalconditiontypeId,
-        userId,
-      })
-        .then(() => {
-          return res.status(201).json({ result: "Created!" });
-        })
-        .catch((err) => {
-          console.log("CATCH ", err);
+  imageUrl &&
+    cloudinary.v2.uploader.upload(
+      imageUrl,
+      { public_id: name },
+      function (error, result) {
+        if (error) {
+          console.log("ERROR ", error);
           return res.status(400).json({ result: "Something went wrong!" });
-        });
+        }
+        HiddenSpot.create({
+          name,
+          description,
+          location,
+          imageUrl: result.url,
+          tourismcategoryId,
+          phisicalconditiontypeId,
+          userId,
+        })
+          .then(() => {
+            return res.status(201).json({ result: "Created!" });
+          })
+          .catch((err) => {
+            console.log("CATCH ", err);
+            return res.status(400).json({ result: "Something went wrong!" });
+          });
+      }
+    );
+};
+
+exports.updateHiddenSpot = async (req, res) => {
+  try {
+    const hiddenSpotId = req.params.id;
+    const newInfo = req.body;
+    let spotToUpdate = await HiddenSpot.findByPk(hiddenSpotId);
+
+    if (!spotToUpdate) {
+      return res.status(404).json({ result: "Something went wrong" });
     }
-  );
+
+    if (
+      newInfo.imageUrl !== null &&
+      spotToUpdate.imageUrl !== newInfo.imageUrl
+    ) {
+      cloudinary.v2.uploader.upload(
+        newInfo.imageUrl,
+        { public_id: newInfo.name },
+        async function (error, result) {
+          if (error) {
+            console.log("ERROR ", error);
+            return res.status(400).json({ result: "Something went wrong!" });
+          }
+          await spotToUpdate.update({ ...newInfo, imageUrl: result.url });
+          await spotToUpdate.save();
+          return res.status(200).json({ result: "Updated!" });
+        }
+      );
+    } else {
+      await spotToUpdate.update(newInfo);
+      await spotToUpdate.save();
+      return res.status(200).json({ result: "Spot updated successfully" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ result: "Something went wrong" });
+  }
 };
 
 exports.postDeleteHiddenSpot = async (req, res) => {
