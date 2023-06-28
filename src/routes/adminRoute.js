@@ -18,7 +18,7 @@ router.get("/:id", adminController.getUser)
 router.post("/save-user", adminController.createUser)
 
 //Actualizar usuario 
-router.post("/update-user", adminController.updateUser)
+router.patch("/update-user/:id", adminController.updateUser)
 
 //Elimiar usuario
 router.patch("/deactivate/:id",/*validateToken,*/adminController.deleteUser)
