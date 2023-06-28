@@ -4,6 +4,7 @@ const sequelize = require("../utils/database");
 const Role = require("./role");
 const Category = require("./category");
 const PhisicalCondition = require("./phisicalCondition");
+const HiddenSpot = require("./hiddenSpot");
 
 const User = sequelize.define("user", {
   id: {
@@ -48,6 +49,11 @@ Role.hasMany(User,{
   },
 })
 
+User.hasMany(HiddenSpot, {
+  allowNull: false
+})
+
 User.belongsTo(Role)
+HiddenSpot.belongsTo(User);
 
 module.exports = User;

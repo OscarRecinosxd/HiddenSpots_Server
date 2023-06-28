@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Role = require("../models/role");
 const Category = require("../models/category");
 const PhisicalCondition = require("../models/phisicalCondition");
@@ -49,12 +50,25 @@ const insertDummyData = async () => {
   await condition3.save();
   console.log("condicion 3 guardada");
 
+  const hashedPassword = await bcrypt.hash("123",parseInt(process.env.SALT))
+
+  const user = new User({
+    username: "admin",
+    email: "admin@gmail.com",
+    password: hashedPassword,
+    isActive: true,
+    roleId: 1
+  })
+
+  await user.save();
+
   const hiddenSpot = new HiddenSpot({
     name: "Prueba",
     description: "Este es un hidden spot de prueba",
     location: { type: "Point", coordinates: [-89.235237, 13.670049] },
     tourismcategoryId : 1,
     phisicalconditiontypeId:1,
+    userId: 1,
   }
   
   );
