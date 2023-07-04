@@ -5,11 +5,10 @@ const validateToken = require("../utils/auth")
 const adminController = require("../controllers/adminController")
 
 //Obtener todos los usuarios
-//
-router.get("/users",/*validateToken, */adminController.getUsers)
+router.get("/users",adminController.getUsers)
 
 //Obtener todos los roles
-router.get("/roles",/*validateToken, */adminController.getRoles)
+router.get("/roles",adminController.getRoles)
 
 //Obtener solo 1 usuario
 router.get("/:id", adminController.getUser)
@@ -21,7 +20,7 @@ router.post("/save-user", adminController.createUser)
 router.patch("/update-user/:id", adminController.updateUser)
 
 //Elimiar usuario
-router.patch("/deactivate/:id",/*validateToken,*/adminController.deleteUser)
+router.patch("/deactivate/:id",adminController.deleteUser)
 
 
 module.exports = router

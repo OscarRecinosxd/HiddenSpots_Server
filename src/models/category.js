@@ -1,7 +1,8 @@
 const Sequelize = require("sequelize");
-
 const sequelize = require("../utils/database");
 
+
+//Tabla categoria
 const Category = sequelize.define("tourismcategory",{
     id: {
         type : Sequelize.INTEGER,

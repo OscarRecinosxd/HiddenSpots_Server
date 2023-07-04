@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
-
 const sequelize = require("../utils/database");
 
+//Tabla de rol
 const Role = sequelize.define("role", {
   id: {
     type: Sequelize.INTEGER,

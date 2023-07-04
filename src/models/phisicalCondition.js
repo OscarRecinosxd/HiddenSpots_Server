@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
-
 const sequelize = require("../utils/database");
 
+//Tabla de condicion fisica
 const PhisicalCondition = sequelize.define("phisicalconditiontypes",{
     id: {
         type : Sequelize.INTEGER,

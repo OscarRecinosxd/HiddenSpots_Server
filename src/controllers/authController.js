@@ -7,6 +7,7 @@ const { Op } = require("sequelize");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+//Controllador para validar loggeo
 exports.sendLogin = async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ where: { username: username } });
@@ -35,7 +36,7 @@ exports.sendLogin = async (req, res) => {
   });
 };
 
-//SIGNUP
+//Controllador para crear usuario
 exports.signUp = async (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
@@ -65,7 +66,7 @@ exports.signUp = async (req, res) => {
     });
 };
 
-//REQUEST RESET PASSWORD
+//Controllador para solicitar reset de contraseña
 exports.requestPassword = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
@@ -114,6 +115,7 @@ exports.requestPassword = async (req, res) => {
   }
 };
 
+//Controllador resetear contraseña
 exports.resetPassword = async (req, res) => {
     const { token }  = req.params;
   const { new_password, confirm_password } = req.body;

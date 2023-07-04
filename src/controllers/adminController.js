@@ -2,8 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const Role = require("../models/role");
 
-//CRUD
-
+//Controllador para obtener usuario
 exports.getUser = (req, res) => {
   console.log(req.params.id);
   User.findByPk(req.params.id)
@@ -19,6 +18,7 @@ exports.getUser = (req, res) => {
     });
 };
 
+//Controllador para obtener todos los usuarios
 exports.getUsers = (req, res) => {
   User.findAll()
     .then((users) => {
@@ -29,7 +29,7 @@ exports.getUsers = (req, res) => {
     });
 };
 
-//CREATE
+//Controllador para crear usuario
 exports.createUser = async (req, res) => {
   console.log("BODY", req.body);
   const username = req.body.username;
@@ -64,7 +64,7 @@ exports.createUser = async (req, res) => {
     });
 };
 
-//UPDATE
+//Controllador para actualizar usuario
 exports.updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -84,7 +84,7 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-//DEACTIVATE
+//Controllador para desactivar usuario
 exports.deleteUser = async (req, res) => {
   const userId = req.params.id;
 
@@ -102,7 +102,7 @@ exports.deleteUser = async (req, res) => {
   return res.status(200).json({ result: "User updated successfully" });
 };
 
-//FIND ALL ROLES
+//Controllador para obtener todos los roles
 exports.getRoles = (req, res) => {
   Role.findAll()
     .then((roles) => {

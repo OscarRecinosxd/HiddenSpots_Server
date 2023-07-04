@@ -14,15 +14,16 @@ const Role = require("./models/role");
 const insertDummyData = require("./utils/dummyData");
 
 app.use(cors());
-
 app.use(Express.json());
 
+//Configuracion para las imagenes
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+//Configuracion para el uso de authorizacion
 app.use(
   expressjwt({
     algorithms: ["HS256"],
@@ -31,15 +32,14 @@ app.use(
   })
 );
 
+//Mapeo de rutas
 app.use("/admin", adminRoutes);
 app.use(authRoutes);
 app.use(auxRoutes)
 app.use("/spots", hiddeSpotsRoutes);
 
-app.get("/", (req, res, next) => {
-  res.send({ title: "Hola" });
-});
 
+//Conexion con la base de datos
 database
   // .sync({ force: true })
   // .sync({alter : true})

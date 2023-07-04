@@ -5,6 +5,8 @@ const PhisicalCondition = require("../models/phisicalCondition");
 const User = require("../models/user");
 const HiddenSpot = require("../models/hiddenSpot");
 
+
+//Funcion que agrega informacion por defecto a la base de datos
 const insertDummyData = async () => {
   console.log("PRUEBA");
   const role1 = new Role({ name: "admin" });
@@ -14,19 +16,6 @@ const insertDummyData = async () => {
   console.log("Rol 1 guardado");
   await role2.save();
   console.log("Rol 2 guardado");
-
-  /*role1
-      .save()
-      .then(() => {
-        role2.save();
-      })
-      .then(() => {
-        console.log("GUARDADOOOOOOOOOOOOOOOOOOOOOOOOOO");
-        return;
-      })
-      .catch((err) => {
-        console.log(err);
-    });*/
 
   const category1 = new Category({ name: "Gubernamental" });
   const category2 = new Category({ name: "Privado" });
@@ -70,9 +59,7 @@ const insertDummyData = async () => {
     phisicalconditiontypeId:1,
     userId: 1,
   }
-  
   );
-
   await hiddenSpot.save()
 
 

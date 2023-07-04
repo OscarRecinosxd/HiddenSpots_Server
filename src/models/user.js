@@ -1,11 +1,11 @@
 const Sequelize = require("sequelize");
-
 const sequelize = require("../utils/database");
 const Role = require("./role");
 const Category = require("./category");
 const PhisicalCondition = require("./phisicalCondition");
 const HiddenSpot = require("./hiddenSpot");
 
+//Tabla de usuario
 const User = sequelize.define("user", {
   id: {
     type: Sequelize.INTEGER,

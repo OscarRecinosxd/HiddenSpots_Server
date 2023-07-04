@@ -1,6 +1,7 @@
 const cloudinary = require("cloudinary");
 const HiddenSpot = require("../models/hiddenSpot");
 
+//Controllador para obtener un hidden spot
 exports.getHiddenSpot = (req, res) => {
   console.log(req.params.id);
   const id = req.params.id;
@@ -17,6 +18,7 @@ exports.getHiddenSpot = (req, res) => {
     });
 };
 
+//Controllador para obtener todos los hidden spot
 exports.getHiddenSpots = (req, res) => {
   HiddenSpot.findAll()
     .then((hiddenSpots) => {
@@ -30,6 +32,8 @@ exports.getHiddenSpots = (req, res) => {
       return res.status(400).json({ result: "Something went wrong" });
     });
 };
+
+//Controllador para crear un hidden spot
 exports.postCreateHiddenSpot = (req, res) => {
   console.log("BODY", req.body);
   const name = req.body.name;
@@ -90,6 +94,7 @@ exports.postCreateHiddenSpot = (req, res) => {
     );
 };
 
+//Controllador para actualizar un hidden spot
 exports.updateHiddenSpot = async (req, res) => {
   try {
     const hiddenSpotId = req.params.id;
@@ -128,6 +133,7 @@ exports.updateHiddenSpot = async (req, res) => {
   }
 };
 
+//Controllador para eliminar un hidden spot
 exports.postDeleteHiddenSpot = async (req, res) => {
   const id = req.params.id;
   await HiddenSpot.findByPk(id)

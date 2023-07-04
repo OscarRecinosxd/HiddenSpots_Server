@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
-
 const sequelize = require("../utils/database");
 const Category = require("./category");
 const PhisicalCondition = require("./phisicalCondition");
 
+//Tabla de hidden spot
 const HiddenSpot = sequelize.define("hiddenspot", {
   id: {
     type: Sequelize.INTEGER,
@@ -32,12 +32,10 @@ const HiddenSpot = sequelize.define("hiddenspot", {
   },
 });
 
+//Relaciones que tiene un hidden spot
 Category.hasMany(HiddenSpot);
-
 HiddenSpot.belongsTo(Category);
-
 PhisicalCondition.hasMany(HiddenSpot);
-
 HiddenSpot.belongsTo(PhisicalCondition);
 
 module.exports = HiddenSpot;
